@@ -1,0 +1,3 @@
+# Opcjonalny serwerowy model separacji. Pobiera wagi przy pierwszym uruchomieniu.
+-r requirements.txt
+demucs>=4.0,<5
