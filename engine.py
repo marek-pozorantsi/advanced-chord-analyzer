@@ -77,17 +77,17 @@ def candidates(harmony, bass, amount=3, note_chroma=None):
     return dedup
 
 def analyze(path, bass_path=None, harmony_path=None, note_events=None, use_context=True, context_penalty=0.13):
-    y,sr=librosa.load(path,sr=22050,mono=True,duration=600)
+    y,sr=librosa.load(path,sr=11025,mono=True,duration=600)
     if len(y)<sr:raise ValueError('Nagranie musi mieć przynajmniej 1 sekundę.')
-    hop=512
+    hop=1024
     # CQT: harmonic representation with semitone resolution and low-frequency bass bins
     if harmony_path:
         yh,_=librosa.load(harmony_path,sr=sr,mono=True,duration=600)
         yh=librosa.util.fix_length(yh,size=len(y))
     else:
         yh=y
-    harm=librosa.effects.harmonic(yh,margin=3)
-    cqt=np.abs(librosa.cqt(harm,sr=sr,hop_length=hop,fmin=librosa.note_to_hz('C1'),n_bins=84,bins_per_octave=12))
+    harm=yh  # HPSS removed: expensive on 512 MB servers
+    cqt=np.abs(librosa.cqt(harm,sr=sr,hop_length=hop,fmin=librosa.note_to_hz('C1'),n_bins=60,bins_per_octave=12))
     # CQT bins begin at C1, thus modulo twelve is pitch class
     chroma=np.zeros((12,cqt.shape[1]))
     for pc in range(12):
