@@ -1,0 +1,1 @@
+Experimental, isolated scoring prototype. Tests validate synthetic pitch-class inputs only, not audio recognition. The Polish H-moll is spelled Bm in international pitch notation; UI spelling should be configurable. Need reference audio stems and labeled benchmark before any release.
